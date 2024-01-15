@@ -506,7 +506,7 @@ fn channel_upgrade_extract_attributes_from_tx(
             channel_events::COUNTERPARTY_CHANNEL_ID_ATTRIBUTE_KEY => {
                 attr.counterparty_channel_id = value.parse().ok();
             }
-            channel_events::UPGRADE_CONNECTION_HOPS => {
+            channel_events::CONNECTION_HOPS => {
                 let mut hops = vec![];
                 for hop_str in value.trim().split(',') {
                     let hop = ConnectionId::from_str(hop_str).map_err(ChannelError::identifier)?;
@@ -514,7 +514,7 @@ fn channel_upgrade_extract_attributes_from_tx(
                 }
                 attr.upgrade_connection_hops = hops;
             }
-            channel_events::UPGRADE_VERSION => {
+            channel_events::VERSION => {
                 attr.upgrade_version = Version(value.to_string());
             }
             channel_events::UPGRADE_SEQUENCE => {
@@ -523,7 +523,7 @@ fn channel_upgrade_extract_attributes_from_tx(
                         ChannelError::invalid_string_as_sequence(value.to_string(), e)
                     })?);
             }
-            channel_events::UPGRADE_ORDERING => {
+            channel_events::ORDERING => {
                 attr.upgrade_ordering = Ordering::from_str(value)?;
             }
             _ => {}

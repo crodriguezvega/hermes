@@ -20,6 +20,12 @@ pub const CHANNEL_ID_ATTRIBUTE_KEY: &str = "channel_id";
 pub const PORT_ID_ATTRIBUTE_KEY: &str = "port_id";
 pub const COUNTERPARTY_CHANNEL_ID_ATTRIBUTE_KEY: &str = "counterparty_channel_id";
 pub const COUNTERPARTY_PORT_ID_ATTRIBUTE_KEY: &str = "counterparty_port_id";
+pub const CONNECTION_HOPS: &str = "connection_hops";
+pub const VERSION: &str = "version";
+pub const ORDERING: &str = "ordering";
+
+/// Channel upgrade attribute keys
+pub const UPGRADE_SEQUENCE: &str = "upgrade_sequence";
 
 /// Packet event attribute keys
 pub const PKT_SEQ_ATTRIBUTE_KEY: &str = "packet_sequence";
@@ -31,13 +37,6 @@ pub const PKT_DST_CHANNEL_ATTRIBUTE_KEY: &str = "packet_dst_channel";
 pub const PKT_TIMEOUT_HEIGHT_ATTRIBUTE_KEY: &str = "packet_timeout_height";
 pub const PKT_TIMEOUT_TIMESTAMP_ATTRIBUTE_KEY: &str = "packet_timeout_timestamp";
 pub const PKT_ACK_ATTRIBUTE_KEY: &str = "packet_ack";
-
-/// Channel upgrade attribute keys
-pub const UPGRADE_CONNECTION_HOPS: &str = "upgrade_connection_hops";
-pub const UPGRADE_VERSION: &str = "upgrade_version";
-pub const UPGRADE_SEQUENCE: &str = "upgrade_sequence";
-pub const UPGRADE_ORDERING: &str = "upgrade_ordering";
-pub const CHANNEL_FLUSH_STATUS: &str = "channel_flush_status";
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, PartialOrd, Ord, Hash, Deserialize, Serialize)]
 pub struct Attributes {
@@ -210,16 +209,16 @@ impl From<UpgradeAttributes> for Vec<abci::EventAttribute> {
             }
         }
 
-        let upgrade_connection_hops = (UPGRADE_CONNECTION_HOPS, hops.as_str()).into();
+        let upgrade_connection_hops = (CONNECTION_HOPS, hops.as_str()).into();
         attributes.push(upgrade_connection_hops);
 
-        let upgrade_version = (UPGRADE_VERSION, a.upgrade_version.0.as_str()).into();
+        let upgrade_version = (VERSION, a.upgrade_version.0.as_str()).into();
         attributes.push(upgrade_version);
 
         let upgrade_sequence = (UPGRADE_SEQUENCE, a.upgrade_sequence.to_string().as_str()).into();
         attributes.push(upgrade_sequence);
 
-        let upgrade_ordering = (UPGRADE_ORDERING, a.upgrade_ordering.as_str()).into();
+        let upgrade_ordering = (ORDERING, a.upgrade_ordering.as_str()).into();
         attributes.push(upgrade_ordering);
 
         attributes
